@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SRM University Gallery</title>
+    <style>
+ body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 15px;
+        }
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #1a1a2e;
+    color: white;
+    padding: 30px 30px;
+    font-family: Arial, sans-serif;
+}
+
+.logo h1 {
+    font-size: 24px;
+    color: #f0a500;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    transition: color 0.3s;
+}
+
+nav ul li a:hover {
+    color: #f0a500;
+}
+
+.login-btn a {
+    background-color: #f0a500;
+    color: #1a1a2e;
+    padding: 8px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.login-btn a:hover {
+    background-color: #d18b00;
+}
+
+        h1 {
+            margin-top: 5%;
+            color: #002855;
+            padding:2;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            font-size:50px ;
+
+        }
+
+p {
+    margin: 2%;
+    padding: 15px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: x-large;
+}
+        .gallery{
+            margin: 30px;
+            width: 600px;
+            background: white;
+            padding: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            position: relative;
+            display: block;
+            margin-right: auto;
+            margin-left: auto;
+        }
+
+        .gallery-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            padding: 20px;
+        }
+        .gallery-item {
+            width: 300px;
+            background: white;
+            padding: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+        }
+        img {
+            width: 100%;
+            border-radius: 10px;
+        }
+        .caption {
+            font-size: 16px;
+            margin-top: 10px;
+            font-weight: bold;
+            color: #333;
+        }
+
+footer {
+    background-color: #1a1a2e;
+    color: white;
+    text-align: center;
+    padding: 2px 0;
+    font-family: Arial, sans-serif;
+}
+
+.footer-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    padding: 2px;
+    max-width: 1000px;
+    margin: auto;
+}
+
+.footer-section {
+    width: 30%;
+    min-width: 250px;
+}
+
+.footer-section h2, .footer-section h3 {
+    color: #f0a500;
+}
+
+.footer-section ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-section ul li {
+    margin: 5px 0;
+}
+
+.footer-section ul li a {
+    color: #f0a500;
+    text-decoration: none;
+}
+
+.footer-section ul li a:hover {
+    text-decoration: underline;
+}
+
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.footer-bottom {
+    background-color: #16213e;
+    padding: 10px;
+    margin-top: 20px;
+}
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <h1>📅 ReserveMySpace</h1>
+        </div>
+      
+        <div class="login-btn">
+           
+    
+        <a href="C:\Users\ASUS\OneDrive\Desktop\DITDEMO\spark\index.html" class="btn btn-primary">Reservation</a>
+
+        </div>
+    </header>
+    <h1>SRM University Gallery</h1>
+    <p>SRM Institute of Science and Technology (SRMIST) is a top private university in India, known for its excellence in engineering, medicine, management, and more. Established in 1985 and headquartered in Chennai, SRM has multiple campuses across India. It is accredited by NAAC with an 'A++' grade and collaborates with global institutions like MIT and Harvard. With modern infrastructure, smart classrooms, advanced labs, and strong placement opportunities with top companies like Amazon and Microsoft, SRM provides a world-class learning environment for students. Their are total 20 classrooms and total 30 labs are available in the college </p>
+    
+    <div class="gallery">
+           <img src="p2.jpeg" alt="SRM University" >
+          <p class="caption">SRM University Campus</p>
+          
+      </div>
+    
+    <div class="gallery-container">
+       
+        <div class="gallery-item">
+            <img src="p1.jpeg" alt="Classroom">
+            <p class="caption">Modern Classroom</p>
+        </div>
+        <div class="gallery-item">
+            <img src="p3.jpeg" alt="Laboratory">
+            <p class="caption">Chemistry Lab</p>
+
+        </div>
+        
+        <div class="gallery-item">
+            <img src="p4.jpeg" alt="Laboratory">
+            <p class="caption">Computer Lab</p>
+        </div>
+        <div class="gallery-item">
+            <img src="p5.jpeg" alt="Laboratory">
+            <p class="caption">Physics Lab</p>
+        </div>    
+       
+    </div>
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h2>📅 Classroom & Lab Reservations</h2>
+                <p>Reserve classrooms and labs in real-time. Avoid scheduling conflicts effortlessly!</p>
+                <p>📧 Email: <a href="mailto:support@reservemyspace.com">support@reservemyspace.com</a></p>
+                <p>📞 Contact: +123 456 7890</p>
+            </div>
+    
+          
+    
+            <div class="footer-section">
+                <h3>📍 Stay Connected</h3>
+                <ul class="social-links">
+                    <li><a href="#">Facebook</a></li>
+                    <li><a href="#">Twitter</a></li>
+                    <li><a href="#">LinkedIn</a></li>
+                    <li><a href="#">Instagram</a></li>
+                </ul>
+            </div>
+        </div>
+    
+        <div class="footer-bottom">
+            <p>© 2025 ReserveMySpace. All rights reserved.</p>
+            <p>📍 Empowering smart classroom & lab scheduling.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
