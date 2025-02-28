@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Classroom/Lab Reservation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1, h2 {
+            color: #1E3A5F;
+        }
+
+        .reservation-form, .reservations-list {
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            background: #fafafa;
+        }
+
+        .reservation-form label, .reservation-form select, .reservation-form input, .reservation-form button {
+            display: block;
+            margin-bottom: 10px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .reservation-form input, .reservation-form select {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .reservation-form button {
+            background-color: #1E3A5F;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-weight: bold;
+            border-radius: 4px;
+        }
+
+        .reservation-form button:hover {
+            background-color: #153252;
+        }
+
+        .error-message {
+            color: #D9534F;
+            font-weight: bold;
+        }
+
+        .success-message {
+            color: #5CB85C;
+            font-weight: bold;
+        }
+
+        .time-selection {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .time-selection select {
+            flex: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Classroom/Lab Reservation</h1>
+
+        <div class="reservation-form">
+            <h2>Make a Reservation</h2>
+
+            <label for="name">Name:</label>
+            <input type="text" id="name" placeholder="Enter your name">
+
+            <label for="room">Room/Lab:</label>
+            <select id="room"></select>
+
+            <label for="date">Date:</label>
+            <input type="date" id="date">
+
+            <label>Start Time:</label>
+            <div class="time-selection">
+                <select id="startHour"></select>
+                <select id="startMinute"></select>
+                <select id="startPeriod">
+                    <option value="AM">AM</option>
+                    <option value="PM">PM</option>
+                </select>
+            </div>
+
+            <label>End Time:</label>
+            <div class="time-selection">
+                <select id="endHour"></select>
+                <select id="endMinute"></select>
+                <select id="endPeriod">
+                    <option value="AM">AM</option>
+                    <option value="PM">PM</option>
+                </select>
+            </div>
+
+            <button id="reserveButton">Reserve</button>
+            <p class="error-message" id="errorMessage"></p>
+            <p class="success-message" id="successMessage"></p>
+        </div>
+
+        <div class="reservations-list">
+            <h2>Current Reservations</h2>
+            <div id="reservations"></div>
+        </div>
+    </div>
+
+    <script>
+        const reservations = [];
+
+        function populateRoomOptions() {
+            const roomSelect = document.getElementById('room');
+            for (let i = 101; i <= 120; i++) {
+                let option = document.createElement('option');
+                option.value = `room${i}`;
+                option.textContent = `Room ${i}`;
+                roomSelect.appendChild(option);
+            }
+            for (let i = 201; i <= 230; i++) {
+                let option = document.createElement('option');
+                option.value = `lab${i}`;
+                option.textContent = `Lab ${i}`;
+                roomSelect.appendChild(option);
+            }
+        }
+
+        function populateTimeOptions() {
+            const hourSelects = [document.getElementById('startHour'), document.getElementById('endHour')];
+            const minuteSelects = [document.getElementById('startMinute'), document.getElementById('endMinute')];
+
+            for (let i = 1; i <= 12; i++) {
+                hourSelects.forEach(select => {
+                    const option = document.createElement('option');
+                    option.value = i;
+                    option.textContent = i;
+                    select.appendChild(option);
+                });
+            }
+
+            for (let i = 0; i < 60; i += 5) {
+                minuteSelects.forEach(select => {
+                    const option = document.createElement('option');
+                    option.value = i.toString().padStart(2, '0');
+                    option.textContent = i.toString().padStart(2, '0');
+                    select.appendChild(option);
+                });
+            }
+        }
+
+        populateRoomOptions();
+        populateTimeOptions();
+
+        document.getElementById('reserveButton').addEventListener('click', () => {
+            const name = document.getElementById('name').value.trim();
+            const room = document.getElementById('room').value;
+            const date = document.getElementById('date').value;
+            const startTime = formatTime(
+                document.getElementById('startHour').value,
+                document.getElementById('startMinute').value,
+                document.getElementById('startPeriod').value
+            );
+            const endTime = formatTime(
+                document.getElementById('endHour').value,
+                document.getElementById('endMinute').value,
+                document.getElementById('endPeriod').value
+            );
+
+            const errorMessage = document.getElementById('errorMessage');
+            const successMessage = document.getElementById('successMessage');
+
+            errorMessage.textContent = "";
+            successMessage.textContent = "";
+
+            if (!name || !room || !date || !startTime || !endTime) {
+                errorMessage.textContent = "Please fill in all fields.";
+                return;
+            }
+
+            if (timeToMinutes(endTime) <= timeToMinutes(startTime)) {
+                errorMessage.textContent = "End time must be after start time.";
+                return;
+            }
+
+            const newReservation = { name, room, date, startTime, endTime };
+
+            if (hasConflict(newReservation)) {
+                errorMessage.textContent = "Reservation conflict!";
+                return;
+            }
+
+            reservations.push(newReservation);
+            displayReservations();
+            successMessage.textContent = "Reservation successful!";
+            document.getElementById('name').value = "";
+            document.getElementById('date').value = "";
+        });
+
+        function hasConflict(newReservation) {
+            return reservations.some(reservation =>
+                reservation.room === newReservation.room &&
+                reservation.date === newReservation.date &&
+                timeToMinutes(reservation.endTime) > timeToMinutes(newReservation.startTime) &&
+                timeToMinutes(newReservation.endTime) > timeToMinutes(reservation.startTime)
+            );
+        }
+
+        function formatTime(hour, minute, period) {
+            return `${hour}:${minute} ${period}`;
+        }
+
+        function timeToMinutes(time) {
+            const [hourMinute, period] = time.split(" ");
+            let [hour, minute] = hourMinute.split(":").map(Number);
+            if (period === "PM" && hour !== 12) hour += 12;
+            if (period === "AM" && hour === 12) hour = 0;
+            return hour * 60 + minute;
+        }
+
+        function displayReservations() {
+            document.getElementById('reservations').innerHTML = reservations.map(res =>
+                `<div class="reservation-item">${res.name} reserved ${res.room} on ${res.date} from ${res.startTime} to ${res.endTime}</div>`
+            ).join('');
+        }
+    </script>
+</body>
+</html>
